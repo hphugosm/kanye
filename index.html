@@ -186,6 +186,9 @@
     .right-aligned .era-media { justify-content: flex-end; }
     .center-aligned .era-media { justify-content: center; }
 
+    /* Hide small media tiles; era visuals are now handled by full background photo layers. */
+    .era .era-media { display: none; }
+
     .album-art, .kanye-photo {
       width: clamp(100px, 12vw, 160px); height: clamp(100px, 12vw, 160px);
       border-radius: 4px; overflow: hidden; position: relative;
@@ -1047,6 +1050,29 @@
       const sections = document.querySelectorAll('.section');
       const progressBar = document.getElementById('progressBar');
       let currentIndex = 0;
+
+      // Ensure every era section has the same full-size Kanye background treatment.
+      document.querySelectorAll('.section.era').forEach(section => {
+        if (section.querySelector('.kanye-photo-bg')) return;
+        const photo = section.querySelector('.kanye-photo img');
+        if (!photo || !photo.getAttribute('src')) return;
+
+        const layer = document.createElement('div');
+        layer.className = 'kanye-photo-bg';
+
+        const img = document.createElement('img');
+        img.src = photo.getAttribute('src');
+        img.alt = photo.getAttribute('alt') || 'Kanye West';
+        img.onerror = function() {
+          this.parentElement.style.display = 'none';
+        };
+
+        layer.appendChild(img);
+        const baseLayer = section.querySelector('.era-bg');
+        if (baseLayer) {
+          baseLayer.insertAdjacentElement('afterend', layer);
+        }
+      });
 
       // Intersection Observer
       const sectionObserver = new IntersectionObserver((entries) => {
