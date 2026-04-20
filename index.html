@@ -99,6 +99,16 @@
     /* ===== ERA SECTION BASE ===== */
     .era { position: relative; }
     .era-bg { position: absolute; inset: 0; z-index: 0; }
+    .kanye-photo-bg {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      overflow: hidden; opacity: .2;
+    }
+    .kanye-photo-bg img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center 22%;
+      filter: grayscale(1) contrast(1.15) brightness(.45);
+      transform: scale(1.06);
+      display: block;
+    }
     .era-bg-year {
       position: absolute; font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(15rem,30vw,35rem); color: rgba(255,255,255,.03);
@@ -497,6 +507,15 @@
     .era-vult2 .era-tracks span:hover { background:rgba(154,176,187,.07); border-color:rgba(154,176,187,.35); }
     .vult2-frame { position:absolute; right:10%; top:50%; transform:translateY(-50%); width:160px; height:210px; border:1px solid rgba(154,176,187,.05); z-index:1; }
     .vult2-frame::before { content:''; position:absolute; inset:10px; border:1px solid rgba(154,176,187,.03); }
+
+    .era-donda2 .kanye-photo-bg { opacity:.2; }
+    .era-donda2 .kanye-photo-bg img { object-position:center 30%; }
+    .era-vult1 .kanye-photo-bg { opacity:.22; }
+    .era-vult1 .kanye-photo-bg img { object-position:center 18%; }
+    .era-vult2 .kanye-photo-bg { opacity:.24; }
+    .era-vult2 .kanye-photo-bg img { object-position:center 20%; }
+    .era-bully .kanye-photo-bg { opacity:.1; }
+    .era-bully .kanye-photo-bg img { filter:grayscale(1) contrast(1.12) brightness(.62); object-position:center 25%; }
 
     /* ===== ERA: BULLY ===== */
     .era-bully .era-bg { background:linear-gradient(160deg,#f2f0ed 0%,#ebebea 30%,#f0eeeb 60%,#eeecea 100%); }
@@ -901,19 +920,20 @@
     <!-- DONDA 2 -->
     <section class="section era era-donda2" id="donda2">
       <div class="era-bg"></div><div class="grain"></div>
-      <div class="era-bg-year">2024</div>
+      <div class="kanye-photo-bg"><img src="./media/donda2-kanye.jpg" alt="Kanye West in 2022" onerror="this.parentElement.style.display='none'"></div>
+      <div class="era-bg-year">2022</div>
       <div class="donda2-embers"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="era-content left-aligned">
         <div class="era-media reveal">
           <div class="album-art" style="box-shadow:0 0 80px rgba(255,69,0,.3),0 20px 60px rgba(0,0,0,.5)">
-            <svg viewBox="0 0 200 200" style="width:100%;height:100%"><rect fill="#ff4500" width="200" height="200"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-size="60" fill="#fff" font-family="Arial" font-weight="bold">D2</text></svg>
+            <img src="./media/donda2-cover.jpg" alt="Donda 2 cover" onerror="this.style.display='none'">
             <div class="art-fallback" style="background:linear-gradient(135deg,#ff4500,#ff6600)">D2</div>
           </div>
           <div class="kanye-photo">
             <img src="./media/donda2-kanye.jpg" alt="Kanye West" onerror="this.style.display=\'none\'" style="width:100%;height:100%;object-fit:cover;object-position:center;">
           </div>
         </div>
-        <span class="era-date reveal delay-1">February 2024</span>
+        <span class="era-date reveal delay-1">February 2022</span>
         <h2 class="era-title reveal delay-2">DONDA 2</h2>
         <div class="era-divider reveal delay-3"></div>
         <p class="era-quote reveal delay-3">"The light shines forever."</p>
@@ -930,19 +950,20 @@
     <!-- VULTURES 1 -->
     <section class="section era era-vult1" id="vult1">
       <div class="era-bg"></div><div class="grain"></div>
-      <div class="era-bg-year">2023</div>
+      <div class="kanye-photo-bg"><img src="./media/vult1-kanye.jpg" alt="Kanye West in 2024" onerror="this.parentElement.style.display='none'"></div>
+      <div class="era-bg-year">2024</div>
       <div class="vult1-tag">V</div>
       <div class="era-content right-aligned">
         <div class="era-media reveal">
           <div class="album-art" style="box-shadow:0 0 60px rgba(212,201,181,.2),0 20px 50px rgba(0,0,0,.5)">
-            <svg viewBox="0 0 200 200" style="width:100%;height:100%"><rect fill="#8b7f6f" width="200" height="200"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-size="56" fill="#d4c9b5" font-family="Arial" font-weight="bold">VULT1</text></svg>
+            <img src="./media/vult1-cover.jpg" alt="Vultures 1 cover" onerror="this.style.display='none'">
             <div class="art-fallback" style="background:linear-gradient(135deg,#8b7f6f,#d4c9b5)">VULT</div>
           </div>
           <div class="kanye-photo">
             <img src="./media/vult1-kanye.jpg" alt="Kanye West" onerror="this.style.display=\'none\'" style="width:100%;height:100%;object-fit:cover;object-position:center;">
           </div>
         </div>
-        <span class="era-date reveal delay-1">November 2023</span>
+        <span class="era-date reveal delay-1">February 2024</span>
         <h2 class="era-title reveal delay-2">VULTURES<br>1</h2>
         <div class="era-divider reveal delay-3"></div>
         <p class="era-quote reveal delay-3">"Nature doesn't have pity. Neither do I."</p>
@@ -959,12 +980,13 @@
     <!-- VULTURES 2 -->
     <section class="section era era-vult2" id="vult2">
       <div class="era-bg"></div><div class="grain"></div>
+      <div class="kanye-photo-bg"><img src="./media/vult2-kanye.jpg" alt="Kanye West in 2024" onerror="this.parentElement.style.display='none'"></div>
       <div class="era-bg-year">2024</div>
       <div class="vult2-frame"></div>
       <div class="era-content left-aligned">
         <div class="era-media reveal">
           <div class="album-art" style="box-shadow:0 0 60px rgba(154,176,187,.2),0 20px 50px rgba(0,0,0,.5);border:1px solid rgba(154,176,187,.1)">
-            <svg viewBox="0 0 200 200" style="width:100%;height:100%"><rect fill="#4a5c6b" width="200" height="200"/><rect x="20" y="20" width="160" height="160" fill="none" stroke="#9ab0bb" stroke-width="3"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-size="54" fill="#9ab0bb" font-family="Arial" font-weight="bold">V2</text></svg>
+            <img src="./media/vult2-cover.jpg" alt="Vultures 2 cover" onerror="this.style.display='none'">
             <div class="art-fallback" style="background:linear-gradient(135deg,#4a5c6b,#9ab0bb)">V2</div>
           </div>
           <div class="kanye-photo">
@@ -988,12 +1010,13 @@
     <!-- BULLY -->
     <section class="section era era-bully" id="bully">
       <div class="era-bg"></div><div class="grain"></div>
+      <div class="kanye-photo-bg"><img src="./media/bully-kanye.jpg" alt="Kanye West in 2025" onerror="this.parentElement.style.display='none'"></div>
       <div class="bully-noise"></div>
       <div class="era-bg-year" style="color:rgba(0,0,0,.03)">2025</div>
       <div class="era-content center-aligned">
         <div class="era-media reveal">
           <div class="album-art" style="background:linear-gradient(135deg,#e8e5df,#f5f3f0);box-shadow:0 0 60px rgba(0,0,0,.15),0 20px 50px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.08)">
-            <svg viewBox="0 0 200 200" style="width:100%;height:100%"><rect fill="#e8e5df" width="200" height="200"/><text x="100" y="100" text-anchor="middle" dy=".3em" font-size="48" fill="#333" font-family="Arial" font-weight="bold">BULLY</text></svg>
+            <img src="./media/bully-cover.jpg" alt="Bully cover" onerror="this.style.display='none'">
             <div class="art-fallback" style="background:linear-gradient(135deg,#d4d0c8,#e8e5df);color:#333">BULLY</div>
           </div>
           <div class="kanye-photo">
