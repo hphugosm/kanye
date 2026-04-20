@@ -130,10 +130,19 @@
       font-family: 'Playfair Display', serif; font-style: italic;
       font-size: clamp(.85rem,1.3vw,1rem); line-height: 1.5;
       opacity: .6; margin-bottom: .8rem;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .era-desc {
+    .section.active .era-quote {
+      color: currentColor;
+      text-shadow: 0 0 20px rgba(255,255,255,.05);
+    }\n    .era-desc {
       font-size: clamp(.8rem,1.1vw,.9rem); line-height: 1.7;
       font-weight: 300; opacity: .7; margin-bottom: 1.2rem;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .section.active .era-desc {
+      opacity: 1;
+      letter-spacing: 0.3px;
     }
     .era-tracks { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
     .right-aligned .era-tracks { justify-content: flex-end; }
@@ -142,11 +151,24 @@
       font-family: 'Space Mono', monospace; font-size: .65rem;
       letter-spacing: .1em; padding: .35rem .75rem;
       border: 1px solid rgba(255,255,255,.15); border-radius: 2px;
-      transition: all .3s ease; cursor: default;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: default;
+    }
+    .section.active .era-tracks span {
+      animation: trackStagger 0.6s ease forwards;
+    }
+    .section.active .era-tracks span:nth-child(1) { animation-delay: 0.45s; }
+    .section.active .era-tracks span:nth-child(2) { animation-delay: 0.50s; }
+    .section.active .era-tracks span:nth-child(3) { animation-delay: 0.55s; }
+    .section.active .era-tracks span:nth-child(4) { animation-delay: 0.60s; }
+    .section.active .era-tracks span:nth-child(5) { animation-delay: 0.65s; }
+    @keyframes trackStagger {
+      from { opacity: 0; transform: translateY(10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .era-tracks span:hover {
       background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.4);
-      transform: translateY(-2px);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(255,255,255,.1);
     }
 
     /* ===== MEDIA ROW (Album Art + Kanye Photo) ===== */
@@ -158,9 +180,22 @@
       width: clamp(100px, 12vw, 160px); height: clamp(100px, 12vw, 160px);
       border-radius: 4px; overflow: hidden; position: relative;
       box-shadow: 0 15px 40px rgba(0,0,0,.5); flex-shrink: 0;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .section.active .album-art, .section.active .kanye-photo {
+      transform: scale(1.05) translateY(-4px);
+      box-shadow: 0 25px 60px rgba(0,0,0,.7);
+    }
+    .album-art:hover, .kanye-photo:hover {
+      transform: scale(1.12) translateY(-8px) rotateZ(1.5deg);
+      box-shadow: 0 35px 80px rgba(0,0,0,.8);
     }
     .album-art img, .kanye-photo img {
       width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: filter 0.5s ease;
+    }
+    .section.active .album-art img, .section.active .kanye-photo img {
+      filter: brightness(1.1) contrast(1.05);
     }
     .art-fallback {
       position: absolute; inset: 0; display: flex;
@@ -171,9 +206,18 @@
     /* ===== SPOTIFY PLAYER ===== */
     .spotify-player {
       max-width: 350px; border-radius: 12px; overflow: hidden;
-      opacity: .9; transition: opacity .3s ease;
+      opacity: .9; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(0);
     }
-    .spotify-player:hover { opacity: 1; }
+    .section.active .spotify-player {
+      opacity: 1;
+      transform: translateY(0) scale(1.02);
+    }
+    .spotify-player:hover { 
+      opacity: 1;
+      transform: scale(1.05) translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0,0,0,.3);
+    }
     .right-aligned .spotify-player { margin-left: auto; }
     .center-aligned .spotify-player { margin: 0 auto; }
     .spotify-player iframe { display: block; }
@@ -181,13 +225,18 @@
     /* ===== SCROLL ANIMATIONS ===== */
     .reveal {
       opacity: 0; transform: translateY(30px);
-      transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+      transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1);
     }
     .reveal.delay-1{transition-delay:.1s} .reveal.delay-2{transition-delay:.2s}
     .reveal.delay-3{transition-delay:.3s} .reveal.delay-4{transition-delay:.35s}
     .reveal.delay-5{transition-delay:.4s} .reveal.delay-6{transition-delay:.5s}
     .reveal.delay-7{transition-delay:.6s}
     .section.active .reveal { opacity: 1; transform: translateY(0); }
+    .section.active .era-media { animation: mediaSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes mediaSlideIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
     /* ===== SIDE NAVIGATION ===== */
     .side-nav {
@@ -855,13 +904,25 @@
       <div class="era-bg-year">2024</div>
       <div class="donda2-embers"><span></span><span></span><span></span><span></span><span></span><span></span></div>
       <div class="era-content left-aligned">
+        <div class="era-media reveal">
+          <div class="album-art" style="box-shadow:0 0 80px rgba(255,69,0,.3),0 20px 60px rgba(0,0,0,.5)">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b8/Donda_2_cover.png/320px-Donda_2_cover.png" alt="Donda 2" onerror="this.style.display='none'">
+            <div class="art-fallback" style="background:linear-gradient(135deg,#ff4500,#ff6600)">D2</div>
+          </div>
+          <div class="kanye-photo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Kanye_West_%28Sticker%29.png/400px-Kanye_West_%28Sticker%29.png" alt="Kanye West 2024" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
         <span class="era-date reveal delay-1">February 2024</span>
         <h2 class="era-title reveal delay-2">DONDA 2</h2>
         <div class="era-divider reveal delay-3"></div>
-        <p class="era-quote reveal delay-3">"It's a new dawn, a new day."</p>
-        <p class="era-desc reveal delay-4">The spiritual successor to Donda. Raw, experimental, and unfinished by design. Kanye continued pushing boundaries with ambient production and deeply personal lyrics. A sequel that questions what sequels even mean in his universe.</p>
+        <p class="era-quote reveal delay-3">"The light shines forever."</p>
+        <p class="era-desc reveal delay-4">A raw collection of unfinished thoughts and experimental soundscapes. Ye returned with ethereal production, collaborating with emerging artists. Donda 2 lives in the spaces between albums—a living document released only on Stem Player.</p>
         <div class="era-tracks reveal delay-5">
-          <span>True Love</span><span>Broken Families</span><span>Happy</span><span>Daylight</span>
+          <span>Security</span><span>True Love</span><span>Do I Love You</span><span>Easy</span><span>Get Well Soon</span>
+        </div>
+        <div class="spotify-player reveal delay-6">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3qmjuHrXf2wGj9k4kF9XpF?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
     </section>
@@ -872,13 +933,25 @@
       <div class="era-bg-year">2023</div>
       <div class="vult1-tag">V</div>
       <div class="era-content right-aligned">
+        <div class="era-media reveal">
+          <div class="album-art" style="box-shadow:0 0 60px rgba(212,201,181,.2),0 20px 50px rgba(0,0,0,.5)">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cb/Vultures_album_cover.png/320px-Vultures_album_cover.png" alt="Vultures" onerror="this.style.display='none'">
+            <div class="art-fallback" style="background:linear-gradient(135deg,#8b7f6f,#d4c9b5)">VULT</div>
+          </div>
+          <div class="kanye-photo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Kanye_West_2023_%28cropped%29.jpg/400px-Kanye_West_2023_%28cropped%29.jpg" alt="Kanye West 2023" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
         <span class="era-date reveal delay-1">November 2023</span>
-        <h2 class="era-title reveal delay-2">VULTURES 1</h2>
+        <h2 class="era-title reveal delay-2">VULTURES<br>1</h2>
         <div class="era-divider reveal delay-3"></div>
-        <p class="era-quote reveal delay-3">"Survival of the fittest."</p>
-        <p class="era-desc reveal delay-4">A collaborative project signaling Kanye's return to visceral, unpolished energy. The album's earthy aesthetic and predatory motifs marked a shift. Vultures circling, feeding on the remains of a past era. Kanye reinventing himself once more.</p>
+        <p class="era-quote reveal delay-3">"Nature doesn't have pity. Neither do I."</p>
+        <p class="era-desc reveal delay-4">A bold return with Ty Dolla Sign. Earthy, primal, and unapologetic. The album marked a new chapter—less polished, more human. Sampling gospel, soul, and found sounds, Vultures 1 reclaimed Kanye's throne.</p>
         <div class="era-tracks reveal delay-5">
-          <span>Carnival</span><span>Xtendeded</span><span>Guns</span><span>Pray for Me</span>
+          <span>Carnival</span><span>Xtendeded (with Playboi Carti)</span><span>Guns</span><span>Pray for Me</span><span>On God</span>
+        </div>
+        <div class="spotify-player reveal delay-6">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2r0YwuP2mKNDCAp8u0M8tN?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
     </section>
@@ -889,13 +962,25 @@
       <div class="era-bg-year">2024</div>
       <div class="vult2-frame"></div>
       <div class="era-content left-aligned">
+        <div class="era-media reveal">
+          <div class="album-art" style="box-shadow:0 0 60px rgba(154,176,187,.2),0 20px 50px rgba(0,0,0,.5);border:1px solid rgba(154,176,187,.1)">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/31/Vultures_2_album_cover.png/320px-Vultures_2_album_cover.png" alt="Vultures 2" onerror="this.style.display='none'">
+            <div class="art-fallback" style="background:linear-gradient(135deg,#4a5c6b,#9ab0bb)">V2</div>
+          </div>
+          <div class="kanye-photo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Kanye_West_Vultures2.jpg/400px-Kanye_West_Vultures2.jpg" alt="Kanye West Vultures era" onerror="this.parentElement.style.display='none'">
+          </div>
+        </div>
         <span class="era-date reveal delay-1">August 2024</span>
-        <h2 class="era-title reveal delay-2">VULTURES 2</h2>
+        <h2 class="era-title reveal delay-2">VULTURES<br>2</h2>
         <div class="era-divider reveal delay-3"></div>
-        <p class="era-quote reveal delay-3">"Still standing."</p>
-        <p class="era-desc reveal delay-4">The continuation of the Vultures narrative. Darker, more introspective than its predecessor. Kanye explores themes of resilience and reconstruction, building on the foundation of creative chaos established in volume one. The project evolves.</p>
+        <p class="era-quote reveal delay-3">"Evolution is the greatest teacher."</p>
+        <p class="era-desc reveal delay-4">The sequel deepens the sonic exploration. More polished yet wilder. Ty Dolla Sign and Ye push each other further. Vultures 2 answers questions posed by volume one—a dialogue between two artists at their peak.</p>
         <div class="era-tracks reveal delay-5">
-          <span>Blessed</span><span>Stand Tall</span><span>Never Lose</span><span>Final Chapter</span>
+          <span>TIMELESS (with Ty Dolla Sign)</span><span>BUSSDOWN</span><span>BACK TO ME</span><span>HURRICANE PT2</span>
+        </div>
+        <div class="spotify-player reveal delay-6">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4xnfH4HLg7JXqRlLrVPEd6?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
     </section>
@@ -906,13 +991,25 @@
       <div class="bully-noise"></div>
       <div class="era-bg-year" style="color:rgba(0,0,0,.03)">2025</div>
       <div class="era-content center-aligned">
-        <span class="era-date reveal delay-1">2025</span>
+        <div class="era-media reveal">
+          <div class="album-art" style="background:linear-gradient(135deg,#e8e5df,#f5f3f0);box-shadow:0 0 60px rgba(0,0,0,.15),0 20px 50px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.08)">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/21/Bully_album_cover.png/320px-Bully_album_cover.png" alt="Bully" onerror="this.style.display='none'" style="filter:invert(1) brightness(1.1);">
+            <div class="art-fallback" style="background:linear-gradient(135deg,#d4d0c8,#e8e5df);color:#333">BULLY</div>
+          </div>
+          <div class="kanye-photo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Kanye_West_2025.jpg/400px-Kanye_West_2025.jpg" alt="Kanye West 2025" onerror="this.parentElement.style.display='none'" style="filter:grayscale(0.3) brightness(0.95);">
+          </div>
+        </div>
+        <span class="era-date reveal delay-1">April 2025</span>
         <h2 class="era-title reveal delay-2">BULLY</h2>
         <div class="era-divider reveal delay-3"></div>
-        <p class="era-quote reveal delay-3">"Strength in vulnerability."</p>
-        <p class="era-desc reveal delay-4">The latest chapter. Stripped back. Uncompromising. A return to the rawness that defined his early work, but with the maturity of a decade of evolution. The production is clean yet aggressive. The message is clear yet cryptic. Kanye continues to redefine himself.</p>
+        <p class="era-quote reveal delay-3">"True strength requires no announcement."</p>
+        <p class="era-desc reveal delay-4">The most introspective work yet. Minimal, haunting, and profoundly honest. Ye strips away all noise—no features, no distractions. Just voice, intention, and the weight of legacy. Bully marks a complete return to artistic integrity.</p>
         <div class="era-tracks reveal delay-5">
-          <span>Power</span><span>Voice</span><span>Rise</span><span>Legacy</span>
+          <span>Quiet Strength</span><span>Redeemed</span><span>Inner Light</span><span>Standing Alone</span>
+        </div>
+        <div class="spotify-player reveal delay-6">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5lxlJxNXkEzIqZYxXX8bGm?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
     </section>
